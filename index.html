@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODE — Premium Streetwear</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --black: #0d0d0d;
+      --navy: #0a0e1a;
+      --navy2: #111827;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --white: #f5f5f0;
+      --gray: #888;
+      --card: #131825;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Arial', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* NAVBAR */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 25px 60px; display: flex; justify-content: space-between;
+      align-items: center; background: rgba(10,14,26,0.95);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo { font-size: 28px; font-weight: 900; letter-spacing: 10px; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-links a { color: rgba(245,245,240,0.6); text-decoration: none; font-size: 11px; letter-spacing: 3px; transition: color 0.3s; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold) !important; color: var(--navy) !important; padding: 10px 25px !important; font-weight: 700 !important; border-radius: 2px; opacity: 1 !important; }
+
+    /* HERO */
+    .hero { height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; }
+    .hero-bg { position: absolute; inset: 0; }
+    .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,14,26,0.97) 35%, rgba(10,14,26,0.5) 100%); }
+    .hero-content { position: relative; z-index: 1; padding: 0 80px; max-width: 750px; }
+    .hero-tag { font-size: 10px; letter-spacing: 6px; color: var(--gold); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+    .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+    .hero-title { font-size: 100px; font-weight: 900; line-height: 0.85; text-transform: uppercase; margin-bottom: 35px; }
+    .hero-title .line2 { color: var(--gold); font-style: italic; }
+    .hero-title .line3 { -webkit-text-stroke: 1px var(--white); color: transparent; }
+    .hero-desc { color: var(--gray); font-size: 14px; line-height: 1.9; max-width: 420px; margin-bottom: 50px; border-left: 2px solid var(--gold); padding-left: 20px; }
+    .hero-buttons { display: flex; gap: 15px; margin-bottom: 60px; }
+    .btn-gold { padding: 16px 45px; background: var(--gold); color: var(--navy); font-size: 11px; letter-spacing: 3px; font-weight: 900; text-decoration: none; transition: all 0.3s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline { padding: 16px 45px; border: 1px solid rgba(201,168,76,0.4); color: var(--gold); font-size: 11px; letter-spacing: 3px; text-decoration: none; transition: all 0.3s; }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .hero-stats { display: flex; gap: 50px; padding-top: 40px; border-top: 1px solid rgba(201,168,76,0.15); }
+    .hero-stat .num { font-size: 28px; font-weight: 900; color: var(--gold); }
+    .hero-stat .label { font-size: 10px; letter-spacing: 2px; color: var(--gray); margin-top: 4px; }
+    .hero-side { position: absolute; right: 50px; top: 50%; transform: translateY(-50%); z-index: 1; display: flex; flex-direction: column; gap: 25px; align-items: center; }
+    .hero-side::before { content: ''; width: 1px; height: 80px; background: rgba(201,168,76,0.3); }
+    .hero-side a { color: var(--gray); font-size: 9px; letter-spacing: 3px; text-decoration: none; writing-mode: vertical-rl; transition: color 0.3s; text-transform: uppercase; }
+    .hero-side a:hover { color: var(--gold); }
+    .hero-side::after { content: ''; width: 1px; height: 80px; background: rgba(201,168,76,0.3); }
+
+    /* MARQUEE */
+    .marquee { background: var(--gold); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-inner { display: inline-block; animation: marquee 20s linear infinite; }
+    .marquee span { font-size: 11px; font-weight: 900; letter-spacing: 4px; color: var(--navy); margin: 0 40px; text-transform: uppercase; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* SECTION */
+    .section-header { margin-bottom: 70px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .section-header-left .tag { font-size: 10px; letter-spacing: 5px; color: var(--gold); margin-bottom: 12px; display: block; }
+    .section-header-left h2 { font-size: 48px; font-weight: 900; text-transform: uppercase; line-height: 1; }
+    .section-header-left h2 em { color: var(--gold); font-style: italic; }
+    .section-header-right { color: var(--gray); font-size: 12px; letter-spacing: 1px; text-align: right; max-width: 250px; line-height: 1.8; }
+
+    /* FEATURED */
+    .featured { padding: 130px 80px; background: var(--navy); }
+    .featured-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px; }
+    .featured-card { position: relative; overflow: hidden; cursor: pointer; }
+    .featured-card img { width: 100%; height: 580px; object-fit: cover; transition: transform 0.7s; filter: brightness(0.85); }
+    .featured-card:first-child img { height: 580px; }
+    .featured-card:hover img { transform: scale(1.06); filter: brightness(1); }
+    .featured-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 35px; background: linear-gradient(transparent, rgba(10,14,26,0.95)); }
+    .featured-card-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+    .featured-card-info .price { color: var(--gold); font-size: 20px; font-weight: 900; }
+    .featured-card-info .old-price { text-decoration: line-through; color: var(--gray); font-size: 13px; margin-right: 8px; }
+    .featured-badge { position: absolute; top: 20px; right: 20px; background: var(--gold); color: var(--navy); font-size: 9px; padding: 5px 12px; font-weight: 900; letter-spacing: 2px; }
+
+    /* PRODUCTS */
+    .hoodies { padding: 130px 80px; background: var(--navy2); }
+    .tshirts { padding: 130px 80px; background: var(--navy); }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .product-card { position: relative; overflow: hidden; background: var(--card); }
+    .product-card-img { overflow: hidden; position: relative; }
+    .product-card img { width: 100%; height: 450px; object-fit: cover; transition: transform 0.7s; filter: brightness(0.9); }
+    .product-card:hover img { transform: scale(1.06); filter: brightness(1); }
+    .product-card-overlay { position: absolute; inset: 0; background: rgba(10,14,26,0.6); opacity: 0; transition: opacity 0.4s; display: flex; align-items: center; justify-content: center; }
+    .product-card:hover .product-card-overlay { opacity: 1; }
+    .order-btn { background: var(--gold); color: var(--navy); padding: 14px 35px; font-size: 10px; letter-spacing: 3px; font-weight: 900; text-decoration: none; }
+    .product-card-info { padding: 25px 20px; border-top: 1px solid rgba(201,168,76,0.1); }
+    .product-card-info h3 { font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+    .price-row { display: flex; align-items: center; gap: 12px; }
+    .old { text-decoration: line-through; color: var(--gray); font-size: 13px; }
+    .new { color: var(--gold); font-size: 22px; font-weight: 900; }
+    .badge { background: rgba(201,168,76,0.15); color: var(--gold); font-size: 9px; padding: 3px 8px; letter-spacing: 1px; font-weight: 700; border: 1px solid rgba(201,168,76,0.3); }
+
+    /* LOOKBOOK */
+    .lookbook { padding: 130px 80px; background: var(--navy2); }
+    .lookbook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .lookbook-item { overflow: hidden; position: relative; }
+    .lookbook-item img { width: 100%; height: 420px; object-fit: cover; transition: transform 0.7s; filter: brightness(0.8) saturate(0.8); }
+    .lookbook-item:hover img { transform: scale(1.05); filter: brightness(1) saturate(1); }
+    .lookbook-item:first-child { grid-column: span 2; }
+    .lookbook-item:first-child img { height: 520px; }
+    .lookbook-item:last-child { grid-column: span 2; }
+    .lookbook-item:last-child img { height: 520px; }
+
+    /* ABOUT */
+    .about { padding: 130px 80px; background: var(--navy); display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+    .about-image { position: relative; }
+    .about-image img { width: 100%; height: 650px; object-fit: cover; filter: brightness(0.85); }
+    .about-image-frame { position: absolute; top: -15px; left: -15px; right: 15px; bottom: 15px; border: 1px solid rgba(201,168,76,0.3); pointer-events: none; }
+    .about-image-badge { position: absolute; bottom: 30px; right: -30px; background: var(--gold); color: var(--navy); padding: 25px 30px; font-size: 10px; letter-spacing: 3px; font-weight: 900; line-height: 1.8; }
+    .about-content .tag { font-size: 10px; letter-spacing: 5px; color: var(--gold); margin-bottom: 20px; display: block; }
+    .about-content h2 { font-size: 52px; font-weight: 900; text-transform: uppercase; line-height: 0.9; margin-bottom: 35px; }
+    .about-content h2 em { color: var(--gold); font-style: italic; }
+    .about-content p { color: var(--gray); font-size: 14px; line-height: 1.9; margin-bottom: 20px; }
+    .about-divider { width: 60px; height: 2px; background: var(--gold); margin: 35px 0; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .about-stat .num { font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1; }
+    .about-stat .label { font-size: 9px; letter-spacing: 2px; color: var(--gray); margin-top: 8px; }
+
+    /* CONTACT */
+    .contact { padding: 130px 80px; background: var(--navy2); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
+    .contact-left .tag { font-size: 10px; letter-spacing: 5px; color: var(--gold); margin-bottom: 20px; display: block; }
+    .contact-left h2 { font-size: 52px; font-weight: 900; text-transform: uppercase; line-height: 0.9; margin-bottom: 30px; }
+    .contact-left h2 em { color: var(--gold); font-style: italic; }
+    .contact-left p { color: var(--gray); font-size: 14px; line-height: 1.9; margin-bottom: 50px; }
+    .contact-details { display: flex; flex-direction: column; gap: 0; }
+    .contact-detail { display: flex; gap: 20px; align-items: center; padding: 25px 0; border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .contact-detail-icon { font-size: 20px; width: 40px; }
+    .contact-detail-text span { display: block; font-size: 9px; letter-spacing: 3px; color: var(--gold); margin-bottom: 6px; }
+    .contact-detail-text a { color: var(--white); text-decoration: none; font-size: 15px; transition: color 0.3s; }
+    .contact-detail-text a:hover { color: var(--gold); }
+    .contact-right { display: flex; flex-direction: column; gap: 15px; justify-content: center; }
+    .contact-right-title { font-size: 11px; letter-spacing: 3px; color: var(--gray); margin-bottom: 10px; }
+    .whatsapp-btn { display: flex; align-items: center; gap: 15px; background: #25D366; color: white; padding: 22px 35px; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 2px; transition: all 0.3s; }
+    .whatsapp-btn:hover { transform: translateX(5px); }
+    .whatsapp-btn .icon { font-size: 22px; }
+    .instagram-btn { display: flex; align-items: center; gap: 15px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; padding: 22px 35px; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 2px; transition: all 0.3s; }
+    .instagram-btn:hover { transform: translateX(5px); }
+    .instagram-btn .icon { font-size: 22px; }
+    .contact-note { font-size: 11px; color: var(--gray); letter-spacing: 1px; padding-top: 20px; border-top: 1px solid rgba(201,168,76,0.1); line-height: 1.8; }
+
+    /* FOOTER */
+    footer { background: var(--black); padding: 60px 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; align-items: center; border-top: 1px solid rgba(201,168,76,0.1); }
+    .footer-logo { font-size: 48px; font-weight: 900; letter-spacing: 10px; }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { color: var(--gray); text-decoration: none; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-right { text-align: right; color: var(--gray); font-size: 11px; letter-spacing: 1px; line-height: 2; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 25px; }
+      .hero-title { font-size: 55px; }
+      .hero-side { display: none; }
+      .hero-stats { gap: 25px; }
+      .featured { padding: 80px 20px; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .featured-card img { height: 350px; }
+      .hoodies { padding: 80px 20px; }
+      .tshirts { padding: 80px 20px; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+      .product-card img { height: 250px; }
+      .lookbook { padding: 80px 20px; }
+      .lookbook-grid { grid-template-columns: 1fr 1fr; }
+      .lookbook-item:first-child { grid-column: span 2; }
+      .lookbook-item:last-child { grid-column: span 2; }
+      .about { padding: 80px 20px; grid-template-columns: 1fr; gap: 50px; }
+      .about-image-badge { right: 0; }
+      .contact { padding: 80px 20px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 50px; }
+      footer { padding: 40px 20px; grid-template-columns: 1fr; text-align: center; }
+      .footer-right { text-align: center; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#hero" class="nav-logo">O<span>D</span>E</a>
+    <div class="nav-links">
+      <a href="#featured">New Drops</a>
+      <a href="#hoodies">Hoodies</a>
+      <a href="#tshirts">T-Shirts</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="nav-cta">SHOP NOW</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="images/hero.jpeg" alt="ODE Streetwear">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">KSARA, LEBANON — EST. 2024</div>
+      <h1 class="hero-title">
+        WEAR<br>
+        <span class="line2">YOUR</span><br>
+        <span class="line3">ODE.</span>
+      </h1>
+      <p class="hero-desc">Premium streetwear for those who move different. Limited drops. Crafted for the bold, the creative, the free.</p>
+      <div class="hero-buttons">
+        <a href="#featured" class="btn-gold">SHOP NEW DROPS</a>
+        <a href="#lookbook" class="btn-outline">VIEW LOOKBOOK</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">100+</div>
+          <div class="label">PIECES SOLD</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">LTD</div>
+          <div class="label">LIMITED DROPS</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">LB</div>
+          <div class="label">MADE IN LEBANON</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <a href="https://instagram.com/hadii.hamdann" target="_blank">Instagram</a>
+      <a href="https://wa.me/96178914570" target="_blank">WhatsApp</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span>NEW DROP</span><span>✦</span>
+      <span>ODE PREMIUM STREETWEAR</span><span>✦</span>
+      <span>KSARA LEBANON</span><span>✦</span>
+      <span>LIMITED EDITION</span><span>✦</span>
+      <span>FREE YOUR STYLE</span><span>✦</span>
+      <span>SHOP NOW</span><span>✦</span>
+      <span>NEW DROP</span><span>✦</span>
+      <span>ODE PREMIUM STREETWEAR</span><span>✦</span>
+      <span>KSARA LEBANON</span><span>✦</span>
+      <span>LIMITED EDITION</span><span>✦</span>
+      <span>FREE YOUR STYLE</span><span>✦</span>
+      <span>SHOP NOW</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <section class="featured" id="featured">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="tag">// NEW DROPS</span>
+        <h2>Latest <em>Pieces</em></h2>
+      </div>
+      <div class="section-header-right">Limited stock available. Order via WhatsApp to secure your size.</div>
+    </div>
+    <div class="featured-grid">
+      <div class="featured-card">
+        <div class="featured-badge">NEW DROP</div>
+        <img src="images/hoodie1.jpeg" alt="ODE Hoodie">
+        <div class="featured-card-info">
+          <h3>ODE Classic Hoodie</h3>
+          <div>
+            <span class="old-price">$85</span>
+            <span class="price">$60</span>
+          </div>
+        </div>
+      </div>
+      <div class="featured-card">
+        <div class="featured-badge">SALE</div>
+        <img src="images/tshirt1.jpeg" alt="ODE Tshirt">
+        <div class="featured-card-info">
+          <h3>ODE Street Tee</h3>
+          <div>
+            <span class="old-price">$65</span>
+            <span class="price">$45</span>
+          </div>
+        </div>
+      </div>
+      <div class="featured-card">
+        <img src="images/lookbook1.jpeg" alt="ODE Look">
+        <div class="featured-card-info">
+          <h3>ODE Full Look</h3>
+          <div>
+            <span class="price">FROM $45</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOODIES -->
+  <section class="hoodies" id="hoodies">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="tag">// HOODIES</span>
+        <h2>Stay <em>Bold</em></h2>
+      </div>
+      <div class="section-header-right">Premium quality hoodies. Custom fit. Limited stock per drop.</div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/hoodie1.jpeg" alt="Hoodie">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE CLASSIC HOODIE</h3>
+          <div class="price-row">
+            <span class="old">$85</span>
+            <span class="new">$60</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/hoodie2.jpeg" alt="Hoodie">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE OVERSIZED HOODIE</h3>
+          <div class="price-row">
+            <span class="old">$85</span>
+            <span class="new">$60</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/hoodie3.jpeg" alt="Hoodie">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE DROP SHOULDER</h3>
+          <div class="price-row">
+            <span class="old">$85</span>
+            <span class="new">$60</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/hoodie4.jpeg" alt="Hoodie">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE PREMIUM HOODIE</h3>
+          <div class="price-row">
+            <span class="old">$85</span>
+            <span class="new">$60</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/hoodie5.jpeg" alt="Hoodie">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE STREET HOODIE</h3>
+          <div class="price-row">
+            <span class="old">$85</span>
+            <span class="new">$60</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TSHIRTS -->
+  <section class="tshirts" id="tshirts">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="tag">// T-SHIRTS</span>
+        <h2>Keep It <em>Clean</em></h2>
+      </div>
+      <div class="section-header-right">Minimal. Intentional. Built to stand out.</div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/tshirt1.jpeg" alt="Tshirt">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE CLASSIC TEE</h3>
+          <div class="price-row">
+            <span class="old">$65</span>
+            <span class="new">$45</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/tshirt2.jpeg" alt="Tshirt">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE OVERSIZED TEE</h3>
+          <div class="price-row">
+            <span class="old">$65</span>
+            <span class="new">$45</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/tshirt3.jpeg" alt="Tshirt">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE STREET TEE</h3>
+          <div class="price-row">
+            <span class="old">$65</span>
+            <span class="new">$45</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/tshirt4.jpeg" alt="Tshirt">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE GRAPHIC TEE</h3>
+          <div class="price-row">
+            <span class="old">$65</span>
+            <span class="new">$45</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="images/tshirt5.jpeg" alt="Tshirt">
+          <div class="product-card-overlay">
+            <a href="https://wa.me/96178914570" target="_blank" class="order-btn">ORDER NOW</a>
+          </div>
+        </div>
+        <div class="product-card-info">
+          <h3>ODE PREMIUM TEE</h3>
+          <div class="price-row">
+            <span class="old">$65</span>
+            <span class="new">$45</span>
+            <span class="badge">-30% OFF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section class="lookbook" id="lookbook">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="tag">// LOOKBOOK</span>
+        <h2>The <em>ODE</em> Life</h2>
+      </div>
+      <div class="section-header-right">How the pieces come together. The full ODE aesthetic.</div>
+    </div>
+    <div class="lookbook-grid">
+      <div class="lookbook-item">
+        <img src="images/lookbook1.jpeg" alt="ODE Look">
+      </div>
+      <div class="lookbook-item">
+        <img src="images/lookbook2.jpeg" alt="ODE Look">
+      </div>
+      <div class="lookbook-item">
+        <img src="images/lookbook3.jpeg" alt="ODE Look">
+      </div>
+      <div class="lookbook-item">
+        <img src="images/lookbook4.jpeg" alt="ODE Look">
+      </div>
+      <div class="lookbook-item">
+        <img src="images/lookbook5.jpeg" alt="ODE Look">
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-image">
+      <div class="about-image-frame"></div>
+      <img src="images/about.jpeg" alt="About ODE">
+      <div class="about-image-badge">KSARA<br>LEBANON<br>EST. 2024</div>
+    </div>
+    <div class="about-content">
+      <span class="tag">// OUR STORY</span>
+      <h2>Born From<br>The <em>Streets</em></h2>
+      <div class="about-divider"></div>
+      <p>ODE is more than a brand. It's a movement born in Ksara, Lebanon — built for those who express themselves through what they wear.</p>
+      <p>We create limited premium streetwear pieces for the bold, the creative, and the fearless. Every drop tells a story. Every piece is made to last.</p>
+      <p>From the streets of Lebanon to the world — this is ODE.</p>
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="num">100+</div>
+          <div class="label">PIECES SOLD</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">16-35</div>
+          <div class="label">AGE RANGE</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">LTD</div>
+          <div class="label">LIMITED DROPS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-left">
+        <span class="tag">// GET YOUR PIECE</span>
+        <h2>Order <em>Now</em></h2>
+        <p>DM us on Instagram or message us on WhatsApp to place your order. We ship across Lebanon. Limited stock — don't sleep on it.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📍</div>
+            <div class="contact-detail-text">
+              <span>LOCATION</span>
+              <a href="#">Ksara, Lebanon</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">💬</div>
+            <div class="contact-detail-text">
+              <span>WHATSAPP</span>
+              <a href="https://wa.me/96178914570" target="_blank">+961 78 914 570</a>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📸</div>
+            <div class="contact-detail-text">
+              <span>INSTAGRAM</span>
+              <a href="https://instagram.com/hadii.hamdann" target="_blank">@hadii.hamdann</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="contact-right-title">REACH US DIRECTLY</div>
+        <a href="https://wa.me/96178914570" target="_blank" class="whatsapp-btn">
+          <span class="icon">💬</span> ORDER ON WHATSAPP
+        </a>
+        <a href="https://instagram.com/hadii.hamdann" target="_blank" class="instagram-btn">
+          <span class="icon">📸</span> FOLLOW ON INSTAGRAM
+        </a>
+        <p class="contact-note">We respond within 24 hours.<br>Shipping available across Lebanon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">O<span>D</span>E</div>
+    <div class="footer-links">
+      <a href="#featured">New Drops</a>
+      <a href="#hoodies">Hoodies</a>
+      <a href="#tshirts">T-Shirts</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-right">
+      © 2024 ODE Streetwear<br>
+      Ksara, Lebanon<br>
+      All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
